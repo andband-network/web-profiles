@@ -19,7 +19,6 @@ public class ProfilesService {
     ProfileDTO createProfile(ProfileDTO profileDTO) {
         Profile profile = profileMapper.dtoToEntity(profileDTO);
         profileRepository.save(profile);
-
         return profileMapper.entityToDTO(profile);
     }
 

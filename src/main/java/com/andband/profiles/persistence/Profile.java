@@ -20,7 +20,7 @@ public class Profile {
     @CreationTimestamp
     private Date createdDate;
 
-    @Column(name = "account_id", nullable = false, unique = true)
+    @Column(name = "account_id", nullable = false)
     private String accountId;
 
     @Column(name = "name", nullable = false)
@@ -53,6 +53,14 @@ public class Profile {
         this.accountId = accountId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getBio() {
         return bio;
     }
@@ -60,5 +68,4 @@ public class Profile {
     public void setBio(String bio) {
         this.bio = bio;
     }
-
 }
