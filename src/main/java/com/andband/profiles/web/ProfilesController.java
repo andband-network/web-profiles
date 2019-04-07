@@ -1,5 +1,6 @@
 package com.andband.profiles.web;
 
+import com.andband.profiles.config.web.resolver.UserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +14,23 @@ public class ProfilesController {
         this.profilesService = profilesService;
     }
 
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProfileDTO createAccount(@RequestBody ProfileDTO profile) {
-        return profilesService.createProfile(profile);
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ProfileDTO getProfile(UserDetails userDetails) {
+        String accountId = userDetails.getAccountId();
+        return profilesService.getProfileByAccountId(accountId);
     }
 
     @GetMapping("/{profileId}")
     @ResponseStatus(HttpStatus.OK)
-    public ProfileDTO getAccount(@PathVariable("profileId") String profileId) {
-        return profilesService.getProfile(profileId);
+    public ProfileDTO getProfile(@PathVariable("profileId") String profileId) {
+        return profilesService.getProfileById(profileId);
+    }
+
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProfileDTO createAccount(@RequestBody ProfileDTO profile) {
+        return profilesService.createProfile(profile);
     }
 
 }

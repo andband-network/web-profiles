@@ -22,11 +22,21 @@ public class ProfilesService {
         return profileMapper.entityToDTO(profile);
     }
 
-    ProfileDTO getProfile(String profileId) {
+    ProfileDTO getProfileById(String profileId) {
         Profile profile = profileRepository.findById(profileId).orElse(null);
 
         if (profile == null) {
             throw new ApplicationException("no profile exists with id: " + profileId);
+        }
+
+        return profileMapper.entityToDTO(profile);
+    }
+
+    ProfileDTO getProfileByAccountId(String accountId) {
+        Profile profile = profileRepository.findByAccountId(accountId);
+
+        if (profile == null) {
+            throw new ApplicationException("no profile exists with account id: " + accountId);
         }
 
         return profileMapper.entityToDTO(profile);

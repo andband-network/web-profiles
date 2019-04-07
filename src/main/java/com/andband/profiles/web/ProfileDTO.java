@@ -1,9 +1,12 @@
 package com.andband.profiles.web;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ProfileDTO {
 
     private String id;
 
+    @JsonIgnore
     private String accountId;
 
     private String name;
