@@ -3,6 +3,7 @@ package com.andband.profiles.web;
 import com.andband.profiles.config.web.resolver.UserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/profiles")
@@ -29,8 +30,22 @@ public class ProfilesController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public ProfileDTO createAccount(@RequestBody ProfileDTO profile) {
-        return profilesService.createProfile(profile);
+    public ProfileDTO createProfile(@RequestParam("accountId") String accountId, @RequestParam("name") String name) {
+        return profilesService.createProfile(accountId, name);
+    }
+
+    @PutMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProfile(@RequestBody ProfileDTO profile, UserDetails userDetails) {
+        profilesService.validateProfileOwner(profile.getId(), userDetails.getAccountId());
+        profilesService.updateProfile(profile);
+    }
+
+    @PutMapping("/{profileId}/image")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProfileImage(@PathVariable("profileId") String profileId, @RequestParam("image") MultipartFile multipartFile, UserDetails userDetails) {
+        profilesService.validateProfileOwner(profileId, userDetails.getAccountId());
+        profilesService.updateProfileImage(multipartFile, profileId);
     }
 
 }

@@ -19,6 +19,7 @@ ext {
 }
 
 dependencies {
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.11.535'
     implementation 'mysql:mysql-connector-java:6.0.6'
     implementation 'org.hibernate:hibernate-entitymanager:5.3.6.Final'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"

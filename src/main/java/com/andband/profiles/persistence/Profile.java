@@ -16,15 +16,18 @@ public class Profile {
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @Column(name = "created_date", nullable = false)
+    @Column(name = "created_date", nullable = false, updatable = false)
     @CreationTimestamp
     private Date createdDate;
 
-    @Column(name = "account_id", nullable = false)
+    @Column(name = "account_id", nullable = false, updatable = false)
     private String accountId;
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "image_id")
+    private String imageId;
 
     @Column(name = "bio")
     private String bio;
@@ -61,6 +64,14 @@ public class Profile {
         this.name = name;
     }
 
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
+
     public String getBio() {
         return bio;
     }
@@ -68,4 +79,5 @@ public class Profile {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
 }
