@@ -14,7 +14,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/profiles").authenticated()
                 .antMatchers(HttpMethod.GET, "/profiles/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/profiles/**").hasAuthority("ROLE_INTERNAL_API")
                 .anyRequest().authenticated()
