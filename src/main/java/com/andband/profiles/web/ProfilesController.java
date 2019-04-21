@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/profiles")
 public class ProfilesController {
@@ -46,6 +48,12 @@ public class ProfilesController {
     public void updateProfileImage(@PathVariable("profileId") String profileId, @RequestParam("image") MultipartFile multipartFile, UserDetails userDetails) {
         profilesService.validateProfileOwner(profileId, userDetails.getAccountId());
         profilesService.updateProfileImage(multipartFile, profileId);
+    }
+
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProfileDTO> updateProfileImage(@RequestParam("searchParams") List<String> searchParams) {
+        return profilesService.searchForProfiles(searchParams);
     }
 
 }

@@ -6,7 +6,10 @@ import com.andband.profiles.persistence.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class ProfilesService {
@@ -32,22 +35,16 @@ public class ProfilesService {
     }
 
     void updateProfile(ProfileDTO profileDTO) {
-        Optional<Profile> optionalProfile = profileRepository.findById(profileDTO.getId());
-        if (optionalProfile.isPresent()) {
-            Profile profile = optionalProfile.get();
-            profile.setName(profileDTO.getName());
-            profile.setBio(profileDTO.getBio());
-            profileRepository.save(profile);
-        }
-
+        Profile profile = profileMapper.dtoToEntity(profileDTO);
+        profileRepository.save(profile);
     }
 
     ProfileDTO getProfileById(String profileId) {
-        Profile profile = profileRepository.findById(profileId).orElse(null);
-        if (profile == null) {
+        Optional<Profile> optionalProfile = profileRepository.findById(profileId);
+        if (!optionalProfile.isPresent()) {
             throw new ApplicationException("no profile exists with id: " + profileId);
         }
-        return profileMapper.entityToDTO(profile);
+        return profileMapper.entityToDTO(optionalProfile.get());
     }
 
     ProfileDTO getProfileByAccountId(String accountId) {
@@ -61,6 +58,16 @@ public class ProfilesService {
     void updateProfileImage(MultipartFile multipartFile, String profileId) {
         String imageId = profileRepository.findImageIdByProfileId(profileId);
         imageService.uploadImage(multipartFile, imageId);
+    }
+
+    List<ProfileDTO> searchForProfiles(List<String> searchParams) {
+        Set<Profile> foundProfiles = new HashSet<>();
+        searchParams.forEach(param -> {
+            List<Profile> profiles = profileRepository.findByNameContaining(param.trim());
+            foundProfiles.addAll(profiles);
+        });
+
+        return profileMapper.entityToDTO(foundProfiles);
     }
 
     void validateProfileOwner(String profileId, String accountId) {
