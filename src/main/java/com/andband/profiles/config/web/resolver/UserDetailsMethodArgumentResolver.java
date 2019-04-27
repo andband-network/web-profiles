@@ -42,7 +42,7 @@ public class UserDetailsMethodArgumentResolver implements HandlerMethodArgumentR
                 Jwt jwt = JwtHelper.decode(tokenString);
 
                 Map<String, String> claims  = objectMapper.readValue(jwt.getClaims(), Map.class);
-                String accountId = claims.get("accountId");
+                String accountId = claims.get("account_id");
                 String email = claims.get("user_name");
 
                 tokenDetails.setAccountId(accountId);
