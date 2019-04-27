@@ -1,4 +1,4 @@
-package com.andband.profiles.persistence;
+package com.andband.profiles.persistence.profile;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;

@@ -1,8 +1,8 @@
-package com.andband.profiles.web;
+package com.andband.profiles.web.profiles;
 
 import com.andband.profiles.exception.ApplicationException;
-import com.andband.profiles.persistence.Profile;
-import com.andband.profiles.persistence.ProfileRepository;
+import com.andband.profiles.persistence.profile.Profile;
+import com.andband.profiles.persistence.profile.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +24,7 @@ public class ProfilesService {
         this.imageService = imageService;
     }
 
-    ProfileDTO createProfile(String accountId, String name) {
+    public ProfileDTO createProfile(String accountId, String name) {
         Profile profile = new Profile();
         profile.setAccountId(accountId);
         profile.setName(name);
@@ -34,12 +34,12 @@ public class ProfilesService {
         return profileMapper.entityToDTO(profile);
     }
 
-    void updateProfile(ProfileDTO profileDTO) {
+    public void updateProfile(ProfileDTO profileDTO) {
         Profile profile = profileMapper.dtoToEntity(profileDTO);
         profileRepository.save(profile);
     }
 
-    ProfileDTO getProfileById(String profileId) {
+    public ProfileDTO getProfileById(String profileId) {
         Optional<Profile> optionalProfile = profileRepository.findById(profileId);
         if (!optionalProfile.isPresent()) {
             throw new ApplicationException("no profile exists with id: " + profileId);
@@ -47,7 +47,7 @@ public class ProfilesService {
         return profileMapper.entityToDTO(optionalProfile.get());
     }
 
-    ProfileDTO getProfileByAccountId(String accountId) {
+    public ProfileDTO getProfileByAccountId(String accountId) {
         Profile profile = profileRepository.findByAccountId(accountId);
         if (profile == null) {
             throw new ApplicationException("no profile exists with account id: " + accountId);
@@ -55,22 +55,25 @@ public class ProfilesService {
         return profileMapper.entityToDTO(profile);
     }
 
-    void updateProfileImage(MultipartFile multipartFile, String profileId) {
+    public void updateProfileImage(MultipartFile multipartFile, String profileId) {
         String imageId = profileRepository.findImageIdByProfileId(profileId);
         imageService.uploadImage(multipartFile, imageId);
     }
 
-    List<ProfileDTO> searchForProfiles(List<String> searchParams) {
+    public List<ProfileDTO> searchForProfiles(List<String> searchParams) {
         Set<Profile> foundProfiles = new HashSet<>();
         searchParams.forEach(param -> {
             List<Profile> profiles = profileRepository.findByNameContaining(param.trim());
             foundProfiles.addAll(profiles);
         });
-
         return profileMapper.entityToDTO(foundProfiles);
     }
 
-    void validateProfileOwner(String profileId, String accountId) {
+    public String getProfileIdFromAccountId(String accountId) {
+        return profileRepository.findProfileIdByAccountId(accountId);
+    }
+
+    public void validateProfileOwner(String profileId, String accountId) {
         String userProfileId = profileRepository.findProfileIdByAccountId(accountId);
         if (!userProfileId.equals(profileId)) {
             throw new ApplicationException("profile: " + profileId + " is not owned by account: " + accountId);

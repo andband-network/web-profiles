@@ -1,9 +1,8 @@
-package com.andband.profiles.web;
+package com.andband.profiles.web.profiles;
 
-import com.andband.profiles.persistence.Profile;
+import com.andband.profiles.persistence.profile.Profile;
 import org.mapstruct.Mapper;
 
-import java.util.Collection;
 import java.util.List;
 
 @Mapper
@@ -13,6 +12,6 @@ public interface ProfileMapper {
 
     Profile dtoToEntity(ProfileDTO profileDTO);
 
-    List<ProfileDTO> entityToDTO(Collection<Profile> profiles);
+    List<ProfileDTO> entityToDTO(Iterable<Profile> profiles);
 
 }

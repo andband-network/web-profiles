@@ -1,4 +1,4 @@
-package com.andband.profiles.web;
+package com.andband.profiles.web.profiles;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.andband.profiles.exception.ApplicationException;

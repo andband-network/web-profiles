@@ -1,4 +1,4 @@
-package com.andband.profiles.web;
+package com.andband.profiles.web.profiles;
 
 public class ProfileDTO {
 

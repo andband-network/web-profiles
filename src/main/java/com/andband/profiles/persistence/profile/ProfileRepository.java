@@ -1,4 +1,4 @@
-package com.andband.profiles.persistence;
+package com.andband.profiles.persistence.profile;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
