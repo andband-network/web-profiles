@@ -6,6 +6,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.andband.profiles.web.messages.MessageMapper;
 import com.andband.profiles.web.profiles.ProfileMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,11 +31,6 @@ public class ProfilesApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(ProfilesApplication.class, args);
-    }
-
-    @Bean
-    public ProfileMapper accountMapper() {
-        return Mappers.getMapper(ProfileMapper.class);
     }
 
     @LoadBalanced
@@ -66,6 +62,16 @@ public class ProfilesApplication {
                 .withCredentials(new AWSStaticCredentialsProvider(credentials))
                 .withRegion(Regions.EU_WEST_1)
                 .build();
+    }
+
+    @Bean
+    public ProfileMapper accountMapper() {
+        return Mappers.getMapper(ProfileMapper.class);
+    }
+
+    @Bean
+    public MessageMapper messageMapper() {
+        return Mappers.getMapper(MessageMapper.class);
     }
 
 }
