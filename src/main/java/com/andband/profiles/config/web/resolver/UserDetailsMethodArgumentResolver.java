@@ -30,7 +30,7 @@ public class UserDetailsMethodArgumentResolver implements HandlerMethodArgumentR
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        UserDetails tokenDetails = new UserDetails();
+        UserDetails userDetails = new UserDetails();
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof OAuth2Authentication) {
@@ -45,11 +45,11 @@ public class UserDetailsMethodArgumentResolver implements HandlerMethodArgumentR
                 String accountId = claims.get("account_id");
                 String email = claims.get("user_name");
 
-                tokenDetails.setAccountId(accountId);
-                tokenDetails.setEmail(email);
+                userDetails.setAccountId(accountId);
+                userDetails.setEmail(email);
             }
         }
 
-        return tokenDetails;
+        return userDetails;
     }
 }
