@@ -35,8 +35,8 @@ public class MessageView {
     @Column(name = "subject", updatable = false)
     private String subject;
 
-    @Column(name = "text", updatable = false)
-    private String text;
+    @Column(name = "body", updatable = false)
+    private String body;
 
     public String getId() {
         return id;
@@ -94,12 +94,12 @@ public class MessageView {
         this.subject = subject;
     }
 
-    public String getText() {
-        return text;
+    public String getBody() {
+        return body;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setBody(String body) {
+        this.body = body;
     }
 
 }

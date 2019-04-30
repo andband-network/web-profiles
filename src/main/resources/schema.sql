@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   `sender_profile_id` varchar(255) NOT NULL,
   `receiver_profile_id` varchar(255) NOT NULL,
   `subject` varchar(255) NOT NULL,
-  `text` varchar(255) NOT NULL,
+  `body` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -47,7 +47,7 @@ CREATE OR REPLACE VIEW `vw_message` AS
         m.receiver_profile_id AS `receiver_profile_id`,
         ms.receiver_profile_name AS `receiver_profile_name`,
         m.subject AS `subject`,
-        m.text AS `text`
+        m.body AS `body`
     FROM
         message m
             JOIN

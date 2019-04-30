@@ -12,6 +12,9 @@ public interface ProfileRepository extends CrudRepository<Profile, String> {
     @Query("select id from Profile where accountId = :accountId")
     String findProfileIdByAccountId(String accountId);
 
+    @Query("select accountId from Profile where id = :id")
+    String findAccountIdByProfileId(String id);
+
     @Query("select imageId from Profile where id = :id")
     String findImageIdByProfileId(String id);
 

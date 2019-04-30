@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-public interface MessageViewRepository extends CrudRepository<MessageView, Long> {
+public interface MessageViewRepository extends CrudRepository<MessageView, String> {
 
     List<MessageView> findByReceiverProfileId(String profileId);
 

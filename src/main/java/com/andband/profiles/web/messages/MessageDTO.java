@@ -23,7 +23,7 @@ public class MessageDTO {
 
     private String subject;
 
-    private String text;
+    private String body;
 
     public Date getCreatedDate() {
         return createdDate;
@@ -73,12 +73,12 @@ public class MessageDTO {
         this.subject = subject;
     }
 
-    public String getText() {
-        return text;
+    public String getBody() {
+        return body;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setBody(String body) {
+        this.body = body;
     }
 
 }

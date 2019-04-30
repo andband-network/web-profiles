@@ -29,8 +29,8 @@ public class Message {
     @Column(name = "subject", nullable = false, updatable = false)
     private String subject;
 
-    @Column(name = "text", nullable = false, updatable = false)
-    private String text;
+    @Column(name = "body", nullable = false, updatable = false)
+    private String body;
 
     public String getId() {
         return id;
@@ -72,12 +72,12 @@ public class Message {
         this.subject = subject;
     }
 
-    public String getText() {
-        return text;
+    public String getBody() {
+        return body;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setBody(String body) {
+        this.body = body;
     }
 
 }
