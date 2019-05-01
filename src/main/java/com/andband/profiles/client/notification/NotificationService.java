@@ -29,7 +29,7 @@ public class NotificationService {
         request.setEmail(messageReceiverAccount.getEmail());
         request.setUserTo(message.getReceiverProfileName());
         request.setUserFrom(message.getSenderProfileName());
-        request.setBody(formatMessageForNotification(message));
+        request.setText(formatMessageForNotification(message));
 
         notificationApi.post("/notification/profile-message", request, Void.class);
     }

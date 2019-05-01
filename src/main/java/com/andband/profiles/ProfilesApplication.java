@@ -123,16 +123,16 @@ public class ProfilesApplication {
         return new ObjectMapper();
     }
 
-    @Bean("notificationApi")
-    public RestApiTemplate notificationRestTemplate(@Qualifier("oAuth2RestTemplate") RestTemplate restTemplate,
-                                                    @Value("${andband.notification-service.endpoint}") String notificationEndpoint) {
-        return createRestApiTemplate(restTemplate, notificationEndpoint);
-    }
-
     @Bean("accountsApi")
     public RestApiTemplate accountsRestTemplate(@Qualifier("oAuth2RestTemplate") RestTemplate restTemplate,
                                                 @Value("${andband.accounts-api.endpoint}") String accountsApiEndpoint) {
         return createRestApiTemplate(restTemplate, accountsApiEndpoint);
+    }
+
+    @Bean("notificationApi")
+    public RestApiTemplate notificationRestTemplate(@Qualifier("oAuth2RestTemplate") RestTemplate restTemplate,
+                                                    @Value("${andband.notification-service.endpoint}") String notificationEndpoint) {
+        return createRestApiTemplate(restTemplate, notificationEndpoint);
     }
 
     private RestApiTemplate createRestApiTemplate(RestTemplate restTemplate, String apiEndpoint) {

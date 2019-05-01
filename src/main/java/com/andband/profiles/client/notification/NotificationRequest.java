@@ -5,7 +5,7 @@ public class NotificationRequest {
     private String email;
     private String userTo;
     private String userFrom;
-    private String body;
+    private String text;
 
     public String getEmail() {
         return email;
@@ -31,12 +31,12 @@ public class NotificationRequest {
         this.userFrom = userFrom;
     }
 
-    public String getBody() {
-        return body;
+    public String getText() {
+        return text;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setText(String text) {
+        this.text = text;
     }
 
 }
