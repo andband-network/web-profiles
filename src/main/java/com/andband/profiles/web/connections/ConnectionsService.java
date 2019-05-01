@@ -1,5 +1,6 @@
 package com.andband.profiles.web.connections;
 
+import com.andband.profiles.client.notification.NotificationService;
 import com.andband.profiles.persistence.connection.Connection;
 import com.andband.profiles.persistence.connection.ConnectionRepository;
 import com.andband.profiles.persistence.connection.pending.PendingConnection;
@@ -20,12 +21,18 @@ public class ConnectionsService {
     private ConnectionRepository connectionRepository;
     private ProfileRepository profileRepository;
     private ProfileMapper profileMapper;
+    private NotificationService notificationService;
 
-    public ConnectionsService(PendingConnectionRepository pendingConnectionRepository, ConnectionRepository connectionRepository, ProfileRepository profileRepository, ProfileMapper profileMapper) {
+    public ConnectionsService(PendingConnectionRepository pendingConnectionRepository,
+                              ConnectionRepository connectionRepository,
+                              ProfileRepository profileRepository,
+                              ProfileMapper profileMapper,
+                              NotificationService notificationService) {
         this.pendingConnectionRepository = pendingConnectionRepository;
         this.connectionRepository = connectionRepository;
         this.profileRepository = profileRepository;
         this.profileMapper = profileMapper;
+        this.notificationService = notificationService;
     }
 
     public List<ProfileDTO> getConnections(String profileId) {
@@ -38,7 +45,7 @@ public class ConnectionsService {
         ConnectionStatus connectionStatus;
         PendingConnection pendingConnection = pendingConnectionRepository.findConnection(connectedProfileId, profileId);
         if (pendingConnection == null) {
-            createPendingConnection(profileId, connectedProfileId);
+            createConnectionRequest(profileId, connectedProfileId);
             connectionStatus = ConnectionStatus.PENDING;
         } else {
             confirmConnectionRequest(pendingConnection);
@@ -89,13 +96,15 @@ public class ConnectionsService {
         connectionFrom.setProfileId(profileId1);
         connectionFrom.setConnectedProfileId(profileId2);
         connectionRepository.save(connectionFrom);
+        notificationService.connectionConfirmed(profileId1, profileId2);
     }
 
-    private void createPendingConnection(String profileId, String connectedProfileId) {
+    private void createConnectionRequest(String profileId, String connectedProfileId) {
         PendingConnection pendingConnection = new PendingConnection();
         pendingConnection.setProfileId(profileId);
         pendingConnection.setConnectedProfileId(connectedProfileId);
         pendingConnectionRepository.save(pendingConnection);
+        notificationService.connectionRequest(profileId, connectedProfileId);
     }
 
 }

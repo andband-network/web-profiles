@@ -3,8 +3,8 @@ package com.andband.profiles.client.notification;
 public class NotificationRequest {
 
     private String email;
-    private String userTo;
-    private String userFrom;
+    private String toProfileName;
+    private String fromProfileName;
     private String text;
 
     public String getEmail() {
@@ -15,20 +15,20 @@ public class NotificationRequest {
         this.email = email;
     }
 
-    public String getUserTo() {
-        return userTo;
+    public String getToProfileName() {
+        return toProfileName;
     }
 
-    public void setUserTo(String userTo) {
-        this.userTo = userTo;
+    public void setToProfileName(String toProfileName) {
+        this.toProfileName = toProfileName;
     }
 
-    public String getUserFrom() {
-        return userFrom;
+    public String getFromProfileName() {
+        return fromProfileName;
     }
 
-    public void setUserFrom(String userFrom) {
-        this.userFrom = userFrom;
+    public void setFromProfileName(String fromProfileName) {
+        this.fromProfileName = fromProfileName;
     }
 
     public String getText() {
