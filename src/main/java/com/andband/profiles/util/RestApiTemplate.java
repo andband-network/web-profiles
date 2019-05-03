@@ -8,24 +8,24 @@ import java.util.Map;
 public class RestApiTemplate {
 
     private RestTemplate restTemplate;
-    private String restUri;
+    private String apiUri;
     private HttpHeaders httpHeaders;
 
-    public RestApiTemplate(RestTemplate restTemplate, String restUri) {
+    public RestApiTemplate(RestTemplate restTemplate, String apiUri) {
         this.restTemplate = restTemplate;
-        this.restUri = restUri;
+        this.apiUri = apiUri;
     }
 
     public void setHttpHeaders(HttpHeaders httpHeaders) {
         this.httpHeaders = httpHeaders;
     }
 
-    public <T> T get(String resourceUrl, Class<T> responseType) {
-        return get(resourceUrl, null, responseType);
+    public <T> T get(String path, Class<T> responseType) {
+        return get(path, null, responseType);
     }
 
-    public <T> T get(String resourceUrl, Map<String, ?> uriVariables, Class<T> responseType) {
-        String url = restUri + resourceUrl;
+    public <T> T get(String path, Map<String, ?> uriVariables, Class<T> responseType) {
+        String url = apiUri + path;
         HttpEntity httpEntity = new HttpEntity<>(httpHeaders);
 
         ResponseEntity<T> response;
@@ -43,16 +43,16 @@ public class RestApiTemplate {
         return response.getBody();
     }
 
-    public <T, K> T post(String resourceUrl, K requestBody, Class<T> responseType) {
-        return post(resourceUrl, requestBody, responseType, null);
+    public <T, K> T post(String path, K requestBody, Class<T> responseType) {
+        return post(path, requestBody, responseType, null);
     }
 
-    public <T> T post(String resourceUri, Map<String, ?> uriVariables, Class<T> responseType) {
-        return post(resourceUri, null, responseType, uriVariables);
+    public <T> T post(String path, Map<String, ?> uriVariables, Class<T> responseType) {
+        return post(path, null, responseType, uriVariables);
     }
 
-    public <T, K> T post(String resourceUri, K requestBody, Class<T> responseType, Map<String, ?> params) {
-        String url = restUri + resourceUri;
+    public <T, K> T post(String path, K requestBody, Class<T> responseType, Map<String, ?> params) {
+        String url = apiUri + path;
         HttpEntity<K> httpEntity = new HttpEntity<>(requestBody, httpHeaders);
 
         ResponseEntity<T> response;
