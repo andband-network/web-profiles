@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
@@ -27,13 +29,21 @@ public class ImageService {
     }
 
     String createProfileImagePlaceholder() {
+        String imageId = UUID.randomUUID().toString();
+        File profilePlaceHolderImage = getFileFromClasspath(PROFILE_PLACEHOLDER_IMAGE);
+        uploadImage(profilePlaceHolderImage, imageId);
+        deleteFile(profilePlaceHolderImage);
+        return imageId;
+    }
+
+    private File getFileFromClasspath(String location) {
+        ClassPathResource resource = new ClassPathResource(location);
         try {
-            String imageId = UUID.randomUUID().toString();
-            File profilePlaceHolderImage = new ClassPathResource(PROFILE_PLACEHOLDER_IMAGE).getFile();
-            uploadImage(profilePlaceHolderImage, imageId);
-            return imageId;
+            String outputFile = System.getProperty("java.io.tmpdir") + "profile-image.png";
+            Files.copy(resource.getInputStream(), Paths.get(outputFile));
+            return new File(outputFile);
         } catch (IOException e) {
-            throw new ApplicationException("error creating profile placeholder image", e);
+            throw new ApplicationException("error retrieving file from classpath", e);
         }
     }
 
@@ -44,7 +54,15 @@ public class ImageService {
     void uploadImage(MultipartFile multipartFile, String imageId) {
         File image = convert(multipartFile);
         s3client.putObject(bucketName, imageId, image);
-        image.delete();
+        deleteFile(image);
+    }
+
+    private void deleteFile(File file) {
+        try {
+            Files.delete(file.toPath());
+        } catch (IOException e) {
+            throw new ApplicationException("error deleting file" + file.getName(), e);
+        }
     }
 
     private File convert(MultipartFile multipartFile) {
