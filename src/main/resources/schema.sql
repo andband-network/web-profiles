@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
 
 
 CREATE TABLE IF NOT EXISTS `connection` (
-  `id` varchar(255) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `created_date` datetime NOT NULL,
   `profile_id` varchar(255) NOT NULL,
   `connected_profile_id` varchar(255) NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `connection` (
 
 
 CREATE TABLE IF NOT EXISTS `pending_connection` (
-  `id` varchar(255) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `created_date` datetime NOT NULL,
   `profile_id` varchar(255) NOT NULL,
   `connected_profile_id` varchar(255) NOT NULL,

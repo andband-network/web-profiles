@@ -1,7 +1,6 @@
 package com.andband.profiles.persistence.connection;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,9 +17,8 @@ public class Connection {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+    @GeneratedValue
+    private Long id;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreationTimestamp
@@ -32,11 +30,11 @@ public class Connection {
     @Column(name = "connected_profile_id", nullable = false, updatable = false)
     private String connectedProfileId;
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
