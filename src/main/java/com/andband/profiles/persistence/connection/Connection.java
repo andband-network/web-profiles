@@ -17,7 +17,7 @@ public class Connection {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "created_date", nullable = false, updatable = false)
