@@ -1,4 +1,4 @@
-package com.andband.profiles.config.web.filter;
+package com.andband.profiles.config.security;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -34,4 +34,5 @@ public class CorsFilter implements Filter {
     @Override
     public void init(FilterConfig config) {
     }
+
 }
