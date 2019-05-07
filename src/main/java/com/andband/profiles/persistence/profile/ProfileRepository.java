@@ -20,4 +20,6 @@ public interface ProfileRepository extends CrudRepository<Profile, String> {
 
     List<Profile> findByNameContaining(String name);
 
+    List<Profile> findByNameContainingAndShowLocationEquals(String name, boolean showLocation);
+
 }

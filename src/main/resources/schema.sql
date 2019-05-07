@@ -5,6 +5,16 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `name` varchar(255) NOT NULL,
   `bio` varchar(255) DEFAULT NULL,
   `image_id` varchar(255) DEFAULT NULL,
+  `show_location` bit(1) DEFAULT NULL,
+  `location_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `location` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

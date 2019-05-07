@@ -32,6 +32,13 @@ public class Profile {
     @Column(name = "bio")
     private String bio;
 
+    @Column(name = "show_location")
+    private boolean showLocation;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    private Location location;
+
     public String getId() {
         return id;
     }
@@ -78,6 +85,22 @@ public class Profile {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public boolean isShowLocation() {
+        return showLocation;
+    }
+
+    public void setShowLocation(boolean showLocation) {
+        this.showLocation = showLocation;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
 }

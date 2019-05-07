@@ -1,15 +1,13 @@
 package com.andband.profiles.web.profiles;
 
 import com.andband.profiles.exception.ApplicationException;
+import com.andband.profiles.persistence.profile.Location;
 import com.andband.profiles.persistence.profile.Profile;
 import com.andband.profiles.persistence.profile.ProfileRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class ProfilesService {
@@ -18,7 +16,7 @@ public class ProfilesService {
     private ProfileMapper profileMapper;
     private ImageService imageService;
 
-    ProfilesService(ProfileRepository profileRepository, ProfileMapper profileMapper, ImageService imageService) {
+    public ProfilesService(ProfileRepository profileRepository, ProfileMapper profileMapper, ImageService imageService) {
         this.profileRepository = profileRepository;
         this.profileMapper = profileMapper;
         this.imageService = imageService;
@@ -30,6 +28,7 @@ public class ProfilesService {
         profile.setName(name);
         String imageId = imageService.createProfileImagePlaceholder();
         profile.setImageId(imageId);
+        profile.setLocation(new Location());
         profileRepository.save(profile);
         return profileMapper.entityToDTO(profile);
     }
@@ -58,19 +57,6 @@ public class ProfilesService {
     public void updateProfileImage(MultipartFile multipartFile, String profileId) {
         String imageId = profileRepository.findImageIdByProfileId(profileId);
         imageService.uploadImage(multipartFile, imageId);
-    }
-
-    public List<ProfileDTO> searchForProfiles(List<String> searchParams) {
-        Set<Profile> foundProfiles = new HashSet<>();
-        searchParams.forEach(param -> {
-            List<Profile> profiles = profileRepository.findByNameContaining(param.trim());
-            foundProfiles.addAll(profiles);
-        });
-        return profileMapper.entityToDTO(foundProfiles);
-    }
-
-    public String getProfileIdFromAccountId(String accountId) {
-        return profileRepository.findProfileIdByAccountId(accountId);
     }
 
     public void validateProfileOwner(String profileId, String accountId) {

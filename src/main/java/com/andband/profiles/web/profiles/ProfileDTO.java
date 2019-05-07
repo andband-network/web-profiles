@@ -10,6 +10,10 @@ public class ProfileDTO {
 
     private String bio;
 
+    private boolean showLocation;
+
+    private LocationDTO location;
+
     public String getId() {
         return id;
     }
@@ -40,6 +44,22 @@ public class ProfileDTO {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public boolean isShowLocation() {
+        return showLocation;
+    }
+
+    public void setShowLocation(boolean showLocation) {
+        this.showLocation = showLocation;
+    }
+
+    public LocationDTO getLocation() {
+        return location;
+    }
+
+    public void setLocation(LocationDTO location) {
+        this.location = location;
     }
 
 }

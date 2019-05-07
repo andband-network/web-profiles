@@ -7,6 +7,7 @@ import com.andband.profiles.web.messages.MessageDTO;
 import com.andband.profiles.web.messages.MessagesService;
 import com.andband.profiles.web.profiles.ProfileDTO;
 import com.andband.profiles.web.profiles.ProfilesService;
+import com.andband.profiles.web.profiles.SearchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,11 +21,16 @@ public class ProfilesController {
     private ProfilesService profilesService;
     private ConnectionsService connectionsService;
     private MessagesService messagesService;
+    private SearchService searchService;
 
-    public ProfilesController(ProfilesService profilesService, ConnectionsService connectionsService, MessagesService messagesService) {
+    public ProfilesController(ProfilesService profilesService,
+                              ConnectionsService connectionsService,
+                              MessagesService messagesService,
+                              SearchService searchService) {
         this.profilesService = profilesService;
         this.connectionsService = connectionsService;
         this.messagesService = messagesService;
+        this.searchService = searchService;
     }
 
     @GetMapping()
@@ -120,10 +126,20 @@ public class ProfilesController {
         messagesService.sendMessage(profileId, receiverProfileId, message);
     }
 
+    @GetMapping("/{profileId}/search-range")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ProfileDTO> searchForProfiles(@PathVariable("profileId") String profileId,
+                                              @RequestParam("searchParams") List<String> searchParams,
+                                              @RequestParam("rangeInKilometers") double rangeInKilometers,
+                                              UserDetails userDetails) {
+        validateProfileOwner(profileId, userDetails.getAccountId());
+        return searchService.searchForProfiles(searchParams, rangeInKilometers, profileId);
+    }
+
     @GetMapping("/search")
     @ResponseStatus(HttpStatus.OK)
-    public List<ProfileDTO> updateProfileImage(@RequestParam("searchParams") List<String> searchParams) {
-        return profilesService.searchForProfiles(searchParams);
+    public List<ProfileDTO> searchForProfiles(@RequestParam("searchParams") List<String> searchParams) {
+        return searchService.searchForProfiles(searchParams);
     }
 
     private void validateProfileOwner(String profileId, String accountId) {
