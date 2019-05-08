@@ -54,7 +54,7 @@ public class ProfilesService {
         return profileMapper.entityToDTO(profile);
     }
 
-    public void updateProfileImage(MultipartFile multipartFile, String profileId) {
+    public void updateProfileImage(String profileId, MultipartFile multipartFile) {
         String imageId = profileRepository.findImageIdByProfileId(profileId);
         imageService.uploadImage(multipartFile, imageId);
     }

@@ -65,7 +65,7 @@ public class ProfilesController {
                                    @RequestParam("image") MultipartFile multipartFile,
                                    UserDetails userDetails) {
         validateProfileOwner(profileId, userDetails.getAccountId());
-        profilesService.updateProfileImage(multipartFile, profileId);
+        profilesService.updateProfileImage(profileId, multipartFile);
     }
 
     @GetMapping("/{profileId}/connections")

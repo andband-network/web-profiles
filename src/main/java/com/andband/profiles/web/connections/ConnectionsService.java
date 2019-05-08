@@ -36,8 +36,8 @@ public class ConnectionsService {
     }
 
     public List<ProfileDTO> getConnections(String profileId) {
-        List<String> connectedProfileId = connectionRepository.findConnectedProfileIds(profileId);
-        Iterable<Profile> connectedProfiles = profileRepository.findAllById(connectedProfileId);
+        List<String> connectedProfileIds = connectionRepository.findConnectedProfileIds(profileId);
+        Iterable<Profile> connectedProfiles = profileRepository.findAllById(connectedProfileIds);
         return profileMapper.entityToDTO(connectedProfiles);
     }
 
@@ -57,7 +57,9 @@ public class ConnectionsService {
     @Transactional
     public void removeConnection(String profileId, String connectedProfileId) {
         pendingConnectionRepository.deleteConnection(profileId, connectedProfileId);
+        pendingConnectionRepository.deleteConnection(connectedProfileId, profileId);
         connectionRepository.deleteConnection(profileId, connectedProfileId);
+        connectionRepository.deleteConnection(connectedProfileId, profileId);
     }
 
     public ConnectionStatus getConnectionStatus(String profileId, String connectedProfileId) {
