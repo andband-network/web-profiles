@@ -75,7 +75,7 @@ public class NotificationService {
     }
 
     private String formatMessageForNotification(MessageView message) {
-        return message.getSubject() +
+        return "Subject: " + message.getSubject() +
                 "\n\n" +
                 message.getBody();
     }
