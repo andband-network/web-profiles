@@ -48,6 +48,26 @@ public class ProfilesApplication {
         SpringApplication.run(ProfilesApplication.class, args);
     }
 
+    @LoadBalanced
+    @Bean("restTemplate")
+    public RestTemplate loadBalancedRestTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
+
+    @Bean
+    @Primary
+    public RemoteTokenServices remoteTokenServices(@Qualifier("restTemplate") RestTemplate restTemplate,
+                                            @Value("${andband.auth.oauth.check-token-uri}") String checkTokenEndpoint,
+                                            @Value("${andband.auth.client.internal-api.client-id}") String clientId,
+                                            @Value("${andband.auth.client.internal-api.client-secret}") String clientSecret) {
+        RemoteTokenServices tokenServices = new RemoteTokenServices();
+        tokenServices.setCheckTokenEndpointUrl(checkTokenEndpoint);
+        tokenServices.setClientId(clientId);
+        tokenServices.setClientSecret(clientSecret);
+        tokenServices.setRestTemplate(restTemplate);
+        return tokenServices;
+    }
+
     @Bean
     protected OAuth2ProtectedResourceDetails resource(@Value("${andband.auth.oauth.access-token-uri}") String accessTokenUri,
                                                       @Value("${andband.auth.client.internal-api.client-id}") String clientID,
@@ -57,26 +77,6 @@ public class ProfilesApplication {
         resource.setClientId(clientID);
         resource.setClientSecret(clientSecret);
         return resource;
-    }
-
-    @LoadBalanced
-    @Bean("restTemplate")
-    public RestTemplate loadBalancedRestTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
-
-    @Bean
-    @Primary
-    public RemoteTokenServices tokenService(@Qualifier("restTemplate") RestTemplate restTemplate,
-                                            @Value("${andband.auth.oauth.check-token-uri}") String checkTokenEndpoint,
-                                            @Value("${andband.auth.client.internal-api.client-id}") String clientId,
-                                            @Value("${andband.auth.client.internal-api.client-secret}") String clientSecret) {
-        RemoteTokenServices tokenService = new RemoteTokenServices();
-        tokenService.setCheckTokenEndpointUrl(checkTokenEndpoint);
-        tokenService.setClientId(clientId);
-        tokenService.setClientSecret(clientSecret);
-        tokenService.setRestTemplate(restTemplate);
-        return tokenService;
     }
 
     @LoadBalanced
