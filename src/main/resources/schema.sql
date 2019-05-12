@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS `profile` (
   `created_date` datetime NOT NULL,
   `account_id` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `bio` varchar(255) DEFAULT NULL,
+  `bio` text DEFAULT NULL,
   `image_id` varchar(255) DEFAULT NULL,
   `show_location` bit(1) DEFAULT NULL,
   `location_id` bigint(20) DEFAULT NULL,
