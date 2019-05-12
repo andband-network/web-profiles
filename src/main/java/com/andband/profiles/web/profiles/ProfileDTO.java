@@ -1,11 +1,16 @@
 package com.andband.profiles.web.profiles;
 
+import javax.validation.constraints.NotBlank;
+
 public class ProfileDTO {
 
+    @NotBlank
     private String id;
 
+    @NotBlank
     private String name;
 
+    @NotBlank
     private String imageId;
 
     private String bio;

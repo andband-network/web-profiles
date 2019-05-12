@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -54,7 +55,7 @@ public class ProfilesController {
 
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProfile(@RequestBody ProfileDTO profile, UserDetails userDetails) {
+    public void updateProfile(@Valid @RequestBody ProfileDTO profile, UserDetails userDetails) {
         validateProfileOwner(profile.getId(), userDetails.getAccountId());
         profilesService.updateProfile(profile);
     }
